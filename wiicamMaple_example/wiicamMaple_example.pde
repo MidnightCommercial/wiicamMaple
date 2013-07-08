@@ -9,9 +9,36 @@
 
 PVision ircam;
 byte result;
+int toggle = 0;
+
+HardwareTimer timer1(1);
+HardwareTimer timer2(1);
 
 void setup()
 {
+  // The Pixart sensor needs a 16–25MHz clock signal
+  // We generate one with a timer that toggles pin 11
+  pinMode(11, OUTPUT);
+
+  
+  
+  timer2.setMode(TIMER_CH1, TIMER_OUTPUT_COMPARE);
+  timer3.setMode(TIMER_CH1, TIMER_OUTPUT_COMPARE);
+  timer2.pause();
+  timer3.pause();
+  timer2.setCount(0);
+  timer3.setCount(0);
+  timer2.setPrescaleFactor(1);
+  timer3.setPrescaleFactor(1);
+  timer2.setOverflow(2000);
+  timer3.setOverflow(655);
+  
+  timer3.setCompare(TIMER_CH1, 1);
+  timer3.attachInterrupt(2, clockOut);
+
+  timer2.resume();
+  timer3.resume();
+  
   Serial1.begin(9600);
   ircam.init();
 }
@@ -62,5 +89,9 @@ void loop()
   // Short delay...
   delay(100);
   
+}
 
+void clockOut(void) {
+  toggle ^= 1;
+  digitalWrite(11, toggle);
 }
