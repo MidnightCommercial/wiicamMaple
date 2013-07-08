@@ -26,6 +26,10 @@ void setup()
   timer.setMode(2, TIMER_PWM);
   timer.setCompare(2,1);
   
+  // make #reset HIGH
+  pinMode(14, OUTPUT);
+  digitalWrite(14, HIGH);
+  
   ircam.init();
 }
 
@@ -34,57 +38,60 @@ void loop()
    
   result = ircam.read();
   
-  prnt();
+  if (canPrint()) {
+    SerialUSB.println("IN LOOP");
+  }
+
   
 
-//  
-//  if (result & BLOB1)
-//  {
-//    Serial1.print("BLOB1 detected. X:");
-//    Serial1.print(ircam.Blob1.X);
-//    Serial1.print(" Y:");
-//    Serial1.print(ircam.Blob1.Y);
-//    Serial1.print(" Size:");
-//    Serial1.println(ircam.Blob1.Size);
-//  }
-//  
-//  if (result & BLOB2)
-//  {
-//    Serial1.print("BLOB2 detected. X:");
-//    Serial1.print(ircam.Blob2.X);
-//    Serial1.print(" Y:");
-//    Serial1.print(ircam.Blob2.Y);
-//    Serial1.print(" Size:");
-//    Serial1.println(ircam.Blob2.Size);
-//  }
-//  if (result & BLOB3)
-//  {
-//    Serial1.print("BLOB3 detected. X:");
-//    Serial1.print(ircam.Blob3.X);
-//    Serial1.print(" Y:");
-//    Serial1.print(ircam.Blob3.Y);
-//    Serial1.print(" Size:");
-//    Serial1.println(ircam.Blob3.Size);
-//  }
-//  if (result & BLOB4)
-//  {
-//    Serial1.print("BLOB4 detected. X:");
-//    Serial1.print(ircam.Blob4.X);
-//    Serial1.print(" Y:");
-//    Serial1.print(ircam.Blob4.Y);
-//    Serial1.print(" Size:");
-//    Serial1.println(ircam.Blob4.Size);
-//  }
-//
-//  // Short delay...
-//  delay(100);
+  
+  if (result & BLOB1)
+  {
+    SerialUSB.print("BLOB1 detected. X:");
+    SerialUSB.print(ircam.Blob1.X);
+    SerialUSB.print(" Y:");
+    SerialUSB.print(ircam.Blob1.Y);
+    SerialUSB.print(" Size:");
+    SerialUSB.println(ircam.Blob1.Size);
+  }
+  
+  if (result & BLOB2)
+  {
+    SerialUSB.print("BLOB2 detected. X:");
+    SerialUSB.print(ircam.Blob2.X);
+    SerialUSB.print(" Y:");
+    SerialUSB.print(ircam.Blob2.Y);
+    SerialUSB.print(" Size:");
+    SerialUSB.println(ircam.Blob2.Size);
+  }
+  if (result & BLOB3)
+  {
+    SerialUSB.print("BLOB3 detected. X:");
+    SerialUSB.print(ircam.Blob3.X);
+    SerialUSB.print(" Y:");
+    SerialUSB.print(ircam.Blob3.Y);
+    SerialUSB.print(" Size:");
+    SerialUSB.println(ircam.Blob3.Size);
+  }
+  if (result & BLOB4)
+  {
+    SerialUSB.print("BLOB4 detected. X:");
+    SerialUSB.print(ircam.Blob4.X);
+    SerialUSB.print(" Y:");
+    SerialUSB.print(ircam.Blob4.Y);
+    SerialUSB.print(" Size:");
+    SerialUSB.println(ircam.Blob4.Size);
+  }
+
+  // Short delay...
+  delay(100);
   
 }
 
-void prnt() {
+bool canPrint() {
     if(SerialUSB.isConnected() && (SerialUSB.getDTR() || SerialUSB.getRTS())) {
-        for(int i = 0; i < 10; i++) {
-           SerialUSB.println(msg);
-        }
+       return true;
+    } else {
+      return false;
     }
 }
