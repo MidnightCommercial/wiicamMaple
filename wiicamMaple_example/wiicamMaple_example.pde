@@ -18,26 +18,11 @@ void setup()
 {
   // The Pixart sensor needs a 16–25MHz clock signal
   // We generate one with a timer that toggles pin 11
-  pinMode(11, INPUT);
-
-  // Pause the timer while we're configuring it
-  timer.pause();
-
-  // Set prescale and overflow
+  pinMode(11,PWM);
   timer.setPrescaleFactor(1);
-  timer.setOverflow(8);
-//  timer.setOverflow(65535/200); // 100Khz
-
-  // Set up an interrupt on channel 1
-  timer.setMode(TIMER_CH1, TIMER_OUTPUT_COMPARE);
-  timer.setCompare(TIMER_CH2, 4);  // Interrupt 1 count after each update
-//  timer.attachInterrupt(TIMER_CH1, clockOut);
-
-  // Refresh the timer's count, prescale, and overflow
-  timer.refresh();
-
-  // Start the timer counting
-  timer.resume();
+  timer.setOverflow(1);
+  timer.setMode(2, TIMER_PWM);
+  timer.setCompare(2,1);
   
 //  Serial1.begin(9600);
 //  ircam.init();
