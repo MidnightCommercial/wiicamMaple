@@ -38,7 +38,8 @@ Compatibility
 
 Known issues
 ------------
-This initial version has not yet been tested with the WiiMote camera and we have not yet implemented the 24Mhz clock signal.
+This initial version has not yet been tested with a working WiiMote camera.
+Currently SDA is on pin 20 and SCL is on pin 30 for testing.
 
 Version history
 ------------
